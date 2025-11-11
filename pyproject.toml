@@ -1,0 +1,33 @@
+[build-system]
+requires = ["setuptools>=64", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "personal-assistant-cli"
+version = "1.0.0"
+description = "Command-line personal assistant for managing contacts and notes."
+readme = "README.md"
+requires-python = ">=3.10"
+license = {text = "MIT"}
+authors = [
+  { name = "Team Personal Assistant" }
+]
+classifiers = [
+  "Programming Language :: Python :: 3",
+  "License :: OSI Approved :: MIT License",
+  "Operating System :: OS Independent",
+  "Environment :: Console",
+  "Topic :: Office/Business :: Scheduling",
+]
+dependencies = []
+
+[project.urls]
+Homepage = "https://github.com/example/personal-assistant-cli"
+
+[project.scripts]
+personal-assistant = "personal_assistant.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+
