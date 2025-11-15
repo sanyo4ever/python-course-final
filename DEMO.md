@@ -277,6 +277,18 @@
 ```
 ❌ Підказка: "Did you mean 'add contact'?"
 
+```
+> edit contac Alice email=newemail@example.com
+```
+❌ Підказка: "Did you mean 'edit contact'?"
+(Розпізнає помилку навіть з аргументами!)
+
+```
+> serch notes by tag work
+```
+❌ Підказка: "Did you mean 'search notes by tag'?"
+(Розпізнає довгі команди з багатьма словами!)
+
 ---
 
 ### 5. Збереження даних

@@ -310,8 +310,25 @@ def build_command_map() -> Dict[str, tuple[CommandFunc, str]]:
 def suggest_command(user_input: str, command_map: Dict[str, tuple[CommandFunc, str]]) -> Optional[str]:
     if not user_input:
         return None
+    
     names = list(command_map.keys())
+    
+    # Спочатку пробуємо знайти схожість для всього введеного тексту
     matches = get_close_matches(user_input, names, n=1, cutoff=0.5)
-    return matches[0] if matches else None
+    if matches:
+        return matches[0]
+    
+    # Якщо не знайшли, пробуємо витягти частину команди (перші 2-4 слова)
+    # Це допоможе, якщо користувач ввів "ad contact John" замість "add contact John"
+    words = user_input.split()
+    if len(words) > 1:
+        # Пробуємо різні комбінації слів (від довших до коротших)
+        for word_count in range(min(4, len(words)), 0, -1):
+            partial_command = " ".join(words[:word_count])
+            matches = get_close_matches(partial_command, names, n=1, cutoff=0.5)
+            if matches:
+                return matches[0]
+    
+    return None
 
 
