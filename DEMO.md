@@ -275,9 +275,15 @@
 #### Помилки неіснуючих команд
 
 ```
-> show contacts
+> lst contacts
 ```
 ❌ Підказка: "Did you mean 'list contacts'?"
+
+```
+> show contacts
+```
+❌ Помилка: "Contact 's' not found."
+(Розпізнано як `show contact s` — команда існує, але контакт 's' не знайдено)
 
 ```
 > ad contact John phone=+380501234567
@@ -295,6 +301,16 @@
 ```
 ❌ Підказка: "Did you mean 'search notes by tag'?"
 (Розпізнає довгі команди з багатьма словами!)
+
+```
+> lis contacts
+```
+❌ Підказка: "Did you mean 'list contacts'?"
+
+```
+> delet contact John
+```
+❌ Підказка: "Did you mean 'delete contact'?"
 
 ---
 
