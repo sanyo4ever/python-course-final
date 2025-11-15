@@ -204,7 +204,10 @@ def list_notes(context: AppContext, _: str) -> CommandResult:
 
 
 def show_note(context: AppContext, arguments: str) -> CommandResult:
-    title = require_name(arguments)
+    tokens = shlex.split(arguments)
+    if not tokens:
+        raise CommandError("Usage: show note <title>")
+    title = tokens[0]
     note = context.notebook.get(title)
     if not note:
         raise CommandError(f"Note '{title}' not found.")
@@ -236,7 +239,10 @@ def edit_note(context: AppContext, arguments: str) -> CommandResult:
 
 
 def delete_note(context: AppContext, arguments: str) -> CommandResult:
-    title = require_name(arguments)
+    tokens = shlex.split(arguments)
+    if not tokens:
+        raise CommandError("Usage: delete note <title>")
+    title = tokens[0]
     if context.notebook.remove(title):
         context.storage.save(context.address_book, context.notebook)
         return CommandResult(f"Note '{title}' deleted.")
@@ -294,11 +300,11 @@ def build_command_map() -> Dict[str, tuple[CommandFunc, str]]:
         "delete contact": (delete_contact, "delete contact John"),
         "search contacts": (search_contacts, "search contacts John"),
         "upcoming birthdays": (upcoming_birthdays, "upcoming birthdays 7"),
-        "add note": (add_note, "add note Meeting content=\"Discuss roadmap\" tags=work,planning"),
+        "add note": (add_note, "add note \"Meeting Notes\" content=\"Discuss roadmap\" tags=work,planning"),
         "list notes": (list_notes, "List all notes."),
-        "show note": (show_note, "show note Meeting"),
-        "edit note": (edit_note, "edit note Meeting content=\"Updated\" add_tags=urgent"),
-        "delete note": (delete_note, "delete note Meeting"),
+        "show note": (show_note, "show note \"Meeting Notes\""),
+        "edit note": (edit_note, "edit note \"Meeting Notes\" content=\"Updated\" add_tags=urgent"),
+        "delete note": (delete_note, "delete note \"Meeting Notes\""),
         "search notes": (search_notes, "search notes roadmap"),
         "search notes by tag": (search_notes_by_tag, "search notes by tag work"),
         "sort notes by tags": (sort_notes_by_tags, "sort notes by tags"),

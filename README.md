@@ -52,6 +52,8 @@ personal-assistant
 
 Асистент працює в інтерактивному режимі. Основні команди:
 
+> **Примітка:** Назви нотаток з пробілами потрібно брати в лапки (наприклад, `"Project Roadmap"`), назви без пробілів можна вказувати без лапок.
+
 - `add contact John phone=+380501112233 email=john@example.com address="Kyiv" birthday=1990-05-12`
 - `list contacts`
 - `show contact John`
@@ -59,11 +61,11 @@ personal-assistant
 - `delete contact John`
 - `search contacts John`
 - `upcoming birthdays 7`
-- `add note Roadmap content="Discuss features" tags=work,planning`
+- `add note "Project Roadmap" content="Discuss features" tags=work,planning`
 - `list notes`
-- `show note Roadmap`
-- `edit note Roadmap content="Updated text" add_tags=urgent remove_tags=planning`
-- `delete note Roadmap`
+- `show note "Project Roadmap"`
+- `edit note "Project Roadmap" content="Updated text" add_tags=urgent remove_tags=planning`
+- `delete note "Project Roadmap"`
 - `search notes roadmap`
 - `search notes by tag work`
 - `sort notes by tags`
