@@ -33,9 +33,17 @@ class CommandError(Exception):
     """Domain-specific error for command processing."""
 
 
-def parse_key_value_args(argument_string: str) -> Dict[str, str]:
+def parse_key_value_args(tokens: List[str]) -> Dict[str, str]:
+    """Parse key=value pairs from a list of tokens.
+    
+    Args:
+        tokens: List of already-split tokens (from shlex.split)
+    
+    Returns:
+        Dictionary of key-value pairs with lowercase keys
+    """
     pairs: Dict[str, str] = {}
-    for token in shlex.split(argument_string):
+    for token in tokens:
         if "=" not in token:
             continue
         key, value = token.split("=", maxsplit=1)
@@ -58,7 +66,7 @@ def add_contact(context: AppContext, arguments: str) -> CommandResult:
 
     tokens = shlex.split(arguments)
     name = tokens[0]
-    kv_args = parse_key_value_args(" ".join(tokens[1:]))
+    kv_args = parse_key_value_args(tokens[1:])
 
     record = ContactRecord(
         name=name,
@@ -102,7 +110,7 @@ def edit_contact(context: AppContext, arguments: str) -> CommandResult:
     if not record:
         raise CommandError(f"Contact '{name}' not found.")
 
-    updates = parse_key_value_args(" ".join(tokens[1:]))
+    updates = parse_key_value_args(tokens[1:])
     if not updates:
         raise CommandError("Provide fields to update, e.g. phone=+380..., email=foo@bar.")
 
@@ -181,7 +189,7 @@ def add_note(context: AppContext, arguments: str) -> CommandResult:
             "Usage: add note <title> content=\"...\" [tags=tag1,tag2]"
         )
     title = tokens[0]
-    kv_args = parse_key_value_args(" ".join(tokens[1:]))
+    kv_args = parse_key_value_args(tokens[1:])
     content = kv_args.get("content", "")
     tags = kv_args.get("tags", "")
     note = Note(title=title, content=content)
@@ -226,7 +234,7 @@ def edit_note(context: AppContext, arguments: str) -> CommandResult:
     note = context.notebook.get(title)
     if not note:
         raise CommandError(f"Note '{title}' not found.")
-    kv_args = parse_key_value_args(" ".join(tokens[1:]))
+    kv_args = parse_key_value_args(tokens[1:])
     if "content" in kv_args:
         note.content = kv_args["content"]
     if "add_tags" in kv_args:
